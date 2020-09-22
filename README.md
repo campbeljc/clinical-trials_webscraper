@@ -1,13 +1,13 @@
 # clinical-trials_webscraper
 
-##Main Purpose:
+## Main Purpose:
 
 Scrapes [ClinicalTrials.gov](https://clinicaltrials.gov/) for important clinical trial information on selected disease or drug. 
 
 With the rapidly expanding biotech and pharmaceutical industries, the number of clinical trials and drug candidates has grown exponentially. This increase has made background and competitive research more challenging and time consuming. This webscraper allows for the succinct aggregation of all data pertaining to a specified drug or disease.
 
 
-##Function:
+## Function:
 
 The webscraper first asks for a search term. This term is the same term you would put into the "Condition or disease" searchbox.
 
