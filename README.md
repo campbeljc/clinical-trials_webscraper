@@ -26,3 +26,20 @@ The scraper will then return a csv file that contains the following information 
 11. Drug of Interest
 
 The csv file is saved to the same folder the program is run from.
+
+## Using the Webscraper
+
+To run the webscraper you will need the following packages installed:
+
+numpy
+selenium
+time
+bs4
+urllib
+[Chrome Driver] (https://chromedriver.chromium.org/)
+
+To call the function simply type the following:
+
+python3 webscraper.py
+
+The function will ask you for a search term. You may input either a disease or drug. Make sure you check your spelling!
