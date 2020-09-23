@@ -36,7 +36,7 @@ To run the webscraper you will need the following packages installed:
 * time
 * bs4
 * urllib
-* [Chrome Driver] (https://chromedriver.chromium.org/)
+* [Chrome Driver](https://chromedriver.chromium.org/)
 
 
 To call the function simply type the following:
