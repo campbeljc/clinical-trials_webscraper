@@ -13,12 +13,6 @@ def scrape_page(url=my_url):
     #parse html
     page_soup = soup(page_html, "html.parser")
 
-    #open csv
-    filename = "scraperresults.csv"
-    f = open(filename, "w")
-    headers = "Title, NCT\n"
-    f.write(headers)
-
     #find elements
     main_container = page_soup.findAll("div", {"id":"main-content"})
     title = main_container[0].h1.text
@@ -26,7 +20,5 @@ def scrape_page(url=my_url):
     date_container = page_soup.findAll("div",{"class":"w3-col m5"})
     nct = date_container[0].table.tr.td
 
-    print(nct)
 
-    #Add to csv
-    # f.write(title.replace(",", "|") +","+ nct + "\n")
+    return title, nct, start, end, participants, sponsor, status, phase, primary, secondary

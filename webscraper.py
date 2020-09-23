@@ -1,35 +1,75 @@
-from urllib.request import urlopen
-from bs4 import BeautifulSoup as soup
-# from selenium import webdriver
+from selenium import webdriver
+import time
+import numpy as np
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+# Get Search Term
 if False:
     search_term = input("Enter Search Term: ")
 else:
     search_term = "Lupus Nephritis"
 
+
 search_term = search_term.replace(" ","+")
 
 url = "https://clinicaltrials.gov/ct2/results?cond="+search_term+"&term=&cntry=&state=&city=&dist="
 
-# d = webdriver.Chrome()
-# d.get(url)
+driver = webdriver.Chrome("/Users/jennacampbell/Desktop/webscraper/chromedriver")
+driver.get(url)
 
-uClient = urlopen(url)
-page_html = uClient.read()
-uClient.close()
+time.sleep(5)
 
-page_soup = soup(page_html, "lxml")
+table = driver.find_element_by_id("theDataTable")
+rows = table.find_elements_by_tag_name("tr")
+rows = rows[1:]
 
-table = page_soup.find("table",{"id":"theDataTable"})
+link_list = []
 
-odd_rows = table.findAll("tr",{"class": "odd"})
+for row in rows:
+    cells = row.find_elements_by_tag_name("td")
+    link_cell = cells[3]
+    link = link_cell.find_elements_by_tag_name("a")
+    href = link[0].get_attribute("href")
+    link_list.append(href)
 
-print(len(odd_rows))
+print(link_list)
 
-#click on buttons
-# link = html_element
-# link.click()
+driver.quit()
 
-# driver.back()
+print("all links found, scraping each page")
 
-# f.close()
+#Scrape each link
+from scrapepage import scrape_page
+
+#Make CSV
+filename = "scraperresults.csv"
+    f = open(filename, "w")
+    headers = "Title, NCT\n"
+    f.write(headers)
+    f.close()
+
+for page in link_list:
+    title, nct, start, end, participants, sponsor, status, phase, primary, secondary = scrape_page(page)
+
+    #Add to csv
+    f.open(filename,"a")
+    f.write(title.replace(",", "|") +","+ nct + "\n")
+
+f.close()
+
+# try:
+#     table = WebDriverWait(driver,10).until(
+#         EC.presence_of_all_elements_located((By.CLASS_NAME, "parent"))
+#     )
+#     print("table loaded...")
+
+#     for row in table:
+#         cells = row.find_elements_by_tag_name("td")
+#         link = cells[3].find_element_by_tag_name("a").get_attribute("href")
+#         print(link)
+
+# finally:
+#     driver.quit()
