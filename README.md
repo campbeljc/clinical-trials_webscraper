@@ -40,8 +40,8 @@ To run the webscraper you will need the following packages installed:
 
 
 To call the function simply type the following:
-'''
+```
 python3 webscraper.py
-'''
+```
 
 The function will ask you for a search term. You may input either a disease or drug. Make sure you check your spelling!
