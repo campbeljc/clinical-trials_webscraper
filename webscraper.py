@@ -35,8 +35,6 @@ for row in rows:
     href = link[0].get_attribute("href")
     link_list.append(href)
 
-print(link_list)
-
 driver.quit()
 
 print("all links found, scraping each page")
@@ -46,17 +44,17 @@ from scrapepage import scrape_page
 
 #Make CSV
 filename = "scraperresults.csv"
-    f = open(filename, "w")
-    headers = "Title, NCT\n"
-    f.write(headers)
-    f.close()
+f = open(filename, "w")
+headers = "Title, NCT, Start Date, End Date, Participants, Sponsor, Status, Phase\n"
+f.write(headers)
+f.close()
 
 for page in link_list:
     title, nct, start, end, participants, sponsor, status, phase, primary, secondary = scrape_page(page)
 
-    #Add to csv
+#Add to csv
     f.open(filename,"a")
-    f.write(title.replace(",", "|") +","+ nct + "\n")
+    f.write(title.replace(",", "|") +","+ nct + start + end + participants+ sponsor.replace(",","|")+ status.replace(",","|") + phase + "\n")
 
 f.close()
 
