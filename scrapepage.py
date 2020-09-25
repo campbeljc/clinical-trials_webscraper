@@ -21,35 +21,72 @@ def scrape_page(url=my_url):
     nct = date_container[0].table.tr.td.text
     nct = nct[-11:]
 
-    study_design = page_soup.findAll("table", {"class":"ct-layout_table"})
-    start = study_design[0].tbody.findAll("tr")[7].findAll("td")[1].text
+    study_design = page_soup.findAll("table", {"class":"tr-studyInfo"})
+    table_len = len(study_design[0].tbody.findAll("tr"))
+  
+    try:
+        start = study_design[0].tbody.findAll("tr")[table_len-3].findAll("td")[1].text
+        if len(start) > 20:
+            start = ""
+    except:
+        start = ""
 
-    end = study_design[0].tbody.findAll("tr")[8].findAll("td")[1].text
+    try:
+        end = study_design[0].tbody.findAll("tr")[table_len-2].findAll("td")[1].text
+        if len(end) > 20:
+            end = ""
+    except:
+        end = ""
 
-    participants = study_design[0].tbody.findAll("tr")[1].findAll("td")[1].text
+    try:
+        participants = study_design[0].tbody.findAll("tr")[1].findAll("td")[1].text
+        if len(participants) > 20:
+            participants = ""
+    except:
+        participants = ""
 
-    sponsor = page_soup.findAll("div", {"class":"tr-info-text"})[0].text
 
-    status_text = page_soup.findAll("div", {"class":"tr-status"})[0].text
-    status = status_text.split("First Posted")[0].split(":")[1].strip()
+    try:
+        sponsor = page_soup.findAll("div", {"class":"tr-info-text"})[0].text
+    except:
+        sponsor = ""
 
-    phase = page_soup.findAll("td",{"class":"ct-body3"})[2].span.text
+    try:
+        status_text = page_soup.findAll("div", {"class":"tr-status"})[0].text
+        status = status_text.split("First Posted")[0].split(":")[1].strip()
+        if "\n" in status:
+            status  = "Unknown"
+    except:
+        status = ""
 
-    primary = page_soup.findAll("div",{"class":"tr-indent3"})[0].div.ol.findAll("li")
-    primary_list = []
+    try:
+        phase = page_soup.findAll("td",{"class":"ct-body3"})[2].span.text
+    except:
+        phase =""
 
-    i = 0
-    while i < len(primary):
-        primary_list.append(primary[i].text)
-        i += 1
+    try:
+        primary = page_soup.findAll("div",{"class":"tr-indent3"})[0].div.ol.findAll("li")
+        primary_list = []
 
-    secondary = page_soup.findAll("div",{"class":"tr-indent3"})[0].findAll("div",{"class","ct-body3"})[1].ol.findAll("li")
- 
-    secondary_list = []
+        i = 0
+        while i < len(primary):
+            primary_list.append(primary[i].text)
+            i += 1
+    except: 
+        primary_list=""
 
-    i = 0
-    while i < len(secondary):
-        secondary_list.append(secondary[i].text)
-        i += 1
+    try: 
+        secondary = page_soup.findAll("div",{"class":"tr-indent3"})[0].findAll("div",{"class","ct-body3"})[1].ol.findAll("li")
+    
+        secondary_list = []
 
-    return title, nct, start, end, participants, sponsor, status, phase, primary, secondary
+        i = 0
+        while i < len(secondary):
+            secondary_list.append(secondary[i].text)
+            i += 1
+    except:
+        secondary_list = ""
+
+    return title, nct, start, end, participants, sponsor, status, phase, primary_list, secondary_list
+
+scrape_page()
