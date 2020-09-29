@@ -36,6 +36,7 @@ To run the webscraper you will need the following packages installed:
 * time
 * bs4
 * urllib
+* os
 * [Chrome Driver](https://chromedriver.chromium.org/)
 
 
@@ -44,4 +45,6 @@ To call the function simply type the following:
 python3 webscraper.py
 ```
 
-The function will ask you for a search term. You may input either a disease or drug. Make sure you check your spelling!
+The program will ask you for a search term. You may input either a disease or drug. Make sure you check your spelling!
+
+All results from the search will be scraped for the metrics described above, and stored in a csv file. The file is saved to a directory called "Results" that is saved to the same direcory the script is run from.
