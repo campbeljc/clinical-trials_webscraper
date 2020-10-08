@@ -6,11 +6,14 @@ import os
 
 from selenium.webdriver.support.ui import Select
 
+from getlinks import get_links
+from scrapepage import scrape_page
+
 # Get Search Term
 if True:
     search_term = input("Enter Search Term: ")
 else:
-    search_term = "Dermal Fibrosis"
+    search_term = "Lupus Nephritis"
 
 search_term = search_term.replace(" ","+")
 
@@ -36,29 +39,23 @@ except:
     driver.quit()
     exit("No search results. Please try a different search term.")
 
-#Allow all 100 results to load
-time.sleep(2)
-
-#Retrieve links for all pages found by search result
-table = driver.find_element_by_id("theDataTable")
-rows = table.find_elements_by_tag_name("tr")
-rows = rows[1:]
-
+#Collect all links
+next_page = True
 link_list = []
-
-for row in rows:
-    cells = row.find_elements_by_tag_name("td")
-    link_cell = cells[3]
-    link = link_cell.find_elements_by_tag_name("a")
-    href = link[0].get_attribute("href")
-    link_list.append(href)
+while next_page:
+    link_list = get_links(driver, link_list)
+    arrow = driver.find_elements_by_class_name("paginate_button")[2]
+    last_page = arrow.get_attribute("class").find("disabled")
+    if last_page != -1:
+        next_page = False
+    else:
+        arrow.click()
 
 driver.quit()
 
-print("All trials found, scraping each page...")
+total_results = len(link_list)
 
-#Scrape each link
-from scrapepage import scrape_page
+print("{} trials found, scraping each page...".format(total_results))
 
 #Create directory for results
 parent_dir = os.getcwd()
@@ -83,6 +80,7 @@ def csv_fix(text):
     text = text.replace(",","|").replace("\n","")
     return text
 
+# Scrape each link
 for page in link_list:
     print("scraping page "+str(progress))
     title, nct, start, end, participants, sponsor, status, phase, primary, secondary = scrape_page(page)

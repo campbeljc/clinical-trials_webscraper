@@ -106,4 +106,4 @@ def scrape_page(url=my_url):
 
     return title, nct, start, end, participants, sponsor, status, phase, primary_list, secondary_list
 
-scrape_page()
+# scrape_page()
