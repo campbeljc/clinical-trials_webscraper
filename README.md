@@ -39,7 +39,7 @@ To run the webscraper you will need the following packages installed:
 * bs4
 * urllib
 * os
-* [Chrome Driver](https://chromedriver.chromium.org/) (Chrome Driver should be located in the same folder the script is running from)
+* [Chrome Driver](https://chromedriver.chromium.org/) (Should be located in the same folder the script is running from)
 
 
 To call the function simply type the following:
