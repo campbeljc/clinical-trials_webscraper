@@ -39,7 +39,7 @@ To run the webscraper you will need the following packages installed:
 * bs4
 * urllib
 * os
-* [Chrome Driver](https://chromedriver.chromium.org/)
+* [Chrome Driver](https://chromedriver.chromium.org/) (Chrome Driver should be located in the same folder the script is running from)
 
 
 To call the function simply type the following:
@@ -54,4 +54,4 @@ All results from the search will be scraped for the metrics described above, and
 ## Future Updates
 
 1. Allow for filtering of results using url changes.
-2. Input feature to select location of Chrome Driver so it doesn't need to be located in same folder as program.
+
